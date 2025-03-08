@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\CheckUserType;
+use App\Http\Middleware\UpdateUserLastActiveAt;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -11,12 +13,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'auth.type' => CheckUserType::class,
+//            'last_active' => UpdateUserLastActiveAt::class,
+        ]);
+//        $middleware->prepend(UpdateUserLastActiveAt::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
-
-//    'aliases' => Illuminate\Support\Facades\Facade::defaultAliases()->merge(['Currency' => 'App\Helpers\Currency::class',])->toArray();
 
 class_alias(App\Helpers\Currency::class, 'Currency');
