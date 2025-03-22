@@ -48,8 +48,8 @@
 {{--                <i class="bi bi-search"></i>--}}
 {{--              </a>--}}
 {{--            </li>--}}
-            <!--end::Navbar Search-->
-            <!--begin::Messages Dropdown Menu-->
+{{--            <!--end::Navbar Search-->--}}
+{{--            <!--begin::Messages Dropdown Menu-->--}}
 {{--            <li class="nav-item dropdown">--}}
 {{--              <a class="nav-link" data-bs-toggle="dropdown" href="#">--}}
 {{--                <i class="bi bi-chat-text"></i>--}}

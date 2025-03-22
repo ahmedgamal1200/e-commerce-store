@@ -17,21 +17,21 @@ class UpdateUserLastActiveAt
      */
     public function handle(Request $request, Closure $next): Response
     {
-//        $excludedRoutes = ['login', 'register'];
-//
-//        if($request->is($excludedRoutes))
-//        {
-//            return $next($request);
-//        }
-//        $user = $request->user();
-////        dd($request->user());
-//        if($user){
-//            // forceFill to added in database without $fillable
-//            $user->forceFill([
-//                'last_active_at' => Carbon::now(),
-//            ])
-//            ->save();
-//        }
+        $excludedRoutes = ['login', 'register'];
+
+        if($request->is($excludedRoutes))
+        {
+            return $next($request);
+        }
+        $user = $request->user();
+//        dd($request->user());
+        if($user){
+            // forceFill to added in database without $fillable
+            $user->forceFill([
+                'last_active_at' => Carbon::now(),
+            ])
+            ->save();
+        }
         return $next($request);
     }
 }

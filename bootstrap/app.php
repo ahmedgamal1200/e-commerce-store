@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Middleware\CheckUserType;
-use App\Http\Middleware\UpdateUserLastActiveAt;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -15,9 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'auth.type' => CheckUserType::class,
-//            'last_active' => UpdateUserLastActiveAt::class,
         ]);
-//        $middleware->prepend(UpdateUserLastActiveAt::class);
+
+//        $middleware->prepend(\App\Http\Middleware\MarkNotificationAsRead::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
