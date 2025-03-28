@@ -27,9 +27,20 @@ class Product extends Model
         'store_id'
     ];
 
+    protected $hidden = [
+        'image', 'created_at', 'updated_at', 'deleted_at'
+    ];
+
+    protected $appends = [
+        'image_url',
+    ];
     protected static function booted(): void
     {
         static::addGlobalScope('store', new StoreScope());
+
+        static::creating(function (Product $product) {
+            $product->slug = Str::slug($product->name);
+        });
     }
 
     public function category(): BelongsTo
@@ -85,5 +96,35 @@ class Product extends Model
             return 0;
         }
         return round(100 - (100 * $this->price / $this->compare_price), 1); // round عشان اتحكم في الكسور
+    }
+
+    public function scopeFilter(Builder $builder, $filters): void
+    {
+        $options = array_merge([
+            'store_id' => null,
+            'category_id' => null,
+            'tag_id' => null,
+            'status' => 'active',
+        ], $filters);
+
+        $builder->when($options['status'], function ($query, $status){
+            return $query->where('status', '=', $status);
+        });
+
+        $builder->when($options["store_id"], function ($builder, $value) {
+            $builder->where('store_id', $value);
+        });
+        $builder->when($options["category_id"], function ($builder, $value) {
+            $builder->where('category_id', $value);
+        });
+
+        $builder->when($options["tag_id"], function ($builder, $value) {
+            $builder->whereExists(function ($query) use ($value) {
+                $query->select(1)
+                    ->from('product_tag')
+                    ->whereRaw('product_id = products.id')
+                    ->where('tag_id', $value);
+            });
+        });
     }
 }
