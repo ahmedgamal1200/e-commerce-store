@@ -15,9 +15,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'auth.type' => CheckUserType::class,
         ]);
-
-//        $middleware->prepend(\App\Http\Middleware\MarkNotificationAsRead::class);
     })
+    ->withProviders([
+        App\Providers\FortifyServiceProvider::class,
+    ])
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
